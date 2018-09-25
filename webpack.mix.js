@@ -24,3 +24,7 @@ var coreui_vendor = 'vendor/mrholek/CoreUI-Free-Bootstrap-Admin-Template/Vue_Ful
 //    .copy(coreui_vendor + '/src/App.vue', 'resources/assets/js/App.vue', false);
 
 mix.js('resources/assets/js/app.js', 'public/js');
+
+if (mix.inProduction()) {
+  mix.version();
+}
