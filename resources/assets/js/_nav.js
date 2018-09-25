@@ -52,6 +52,11 @@ export default {
           name: 'Tables',
           url: '/components/tables',
           icon: 'icon-puzzle'
+        },
+        {
+          name: 'Trello',
+          url: '/components/trello',
+          icon: 'icon-puzzle'
         }
       ]
     },

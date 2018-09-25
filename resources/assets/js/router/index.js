@@ -17,6 +17,7 @@ import Forms from '@/views/components/Forms'
 import Modals from '@/views/components/Modals'
 import Switches from '@/views/components/Switches'
 import Tables from '@/views/components/Tables'
+import Trello from '@/views/components/Trello'
 
 // Views - Icons
 import FontAwesome from '@/views/icons/FontAwesome'
@@ -33,7 +34,7 @@ Vue.use(Router)
 export default new Router({
   mode: 'hash', // Demo is living in GitHub.io, so required!
   linkActiveClass: 'open active',
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({y: 0}),
   routes: [
     {
       path: '/',
@@ -41,6 +42,11 @@ export default new Router({
       name: 'Home',
       component: Full,
       children: [
+        {
+          path: 'trello',
+          name: 'Trello',
+          component: Trello
+        },
         {
           path: 'dashboard',
           name: 'Dashboard',
@@ -61,7 +67,9 @@ export default new Router({
           redirect: '/components/buttons',
           name: 'Components',
           component: {
-            render (c) { return c('router-view') }
+            render(c) {
+              return c('router-view')
+            }
           },
           children: [
             {
@@ -98,6 +106,11 @@ export default new Router({
               path: 'tables',
               name: 'Tables',
               component: Tables
+            },
+            {
+              path: 'trello',
+              name: 'Trello',
+              component: Trello
             }
           ]
         },
@@ -106,7 +119,9 @@ export default new Router({
           redirect: '/icons/font-awesome',
           name: 'Icons',
           component: {
-            render (c) { return c('router-view') }
+            render(c) {
+              return c('router-view')
+            }
           },
           children: [
             {
@@ -128,7 +143,9 @@ export default new Router({
       redirect: '/pages/p404',
       name: 'Pages',
       component: {
-        render (c) { return c('router-view') }
+        render(c) {
+          return c('router-view')
+        }
       },
       children: [
         {
