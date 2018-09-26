@@ -25,8 +25,7 @@ var coreui_vendor = 'vendor/mrholek/CoreUI-Free-Bootstrap-Admin-Template/Vue_Ful
 
 mix.js('resources/assets/js/app.js', 'public/js');
 
-mix.version();
 
-// if (mix.inProduction()) {
-//   mix.version();
-// }
+if (mix.inProduction()) {
+  mix.version();
+}
