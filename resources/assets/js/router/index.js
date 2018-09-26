@@ -17,7 +17,7 @@ import Forms from '@/views/components/Forms'
 import Modals from '@/views/components/Modals'
 import Switches from '@/views/components/Switches'
 import Tables from '@/views/components/Tables'
-import Trello from '@/views/components/Trello'
+import Trello from '@/views/trello/Trello'
 
 // Views - Icons
 import FontAwesome from '@/views/icons/FontAwesome'
@@ -106,11 +106,6 @@ export default new Router({
               path: 'tables',
               name: 'Tables',
               component: Tables
-            },
-            {
-              path: 'trello',
-              name: 'Trello',
-              component: Trello
             }
           ]
         },

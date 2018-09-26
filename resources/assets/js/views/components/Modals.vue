@@ -8,7 +8,7 @@
             <b-button type="button" variant="secondary" @click="largeModal = true">Launch large modal</b-button>
             <b-button type="button" variant="secondary" @click="smallModal = true">Launch small modal</b-button>
             <hr>
-            <b-button type="button" variant="primary" @click="primaryModal = true">Launch primary modal</b-button>
+            <b-button type="button" variant="primary" @click="createIssueModal = true">Launch primary modal</b-button>
             <b-button type="button" variant="success" @click="successModal = true">Launch success modal</b-button>
             <b-button type="button" variant="warning" @click="warningModal = true">Launch warning modal</b-button>
             <b-button type="button" variant="danger" @click="dangerModal = true">Launch danger modal</b-button>
@@ -44,7 +44,7 @@
       proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </b-modal>
 
-    <b-modal title="Modal title" class="modal-primary" v-model="primaryModal" @ok="primaryModal = false">
+    <b-modal title="Modal title" class="modal-primary" v-model="createIssueModal" @ok="createIssueModal = false">
       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
       quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -96,7 +96,7 @@ export default {
       myModal: false,
       largeModal: false,
       smallModal: false,
-      primaryModal: false,
+      createIssueModal: false,
       successModal: false,
       warningModal: false,
       dangerModal: false,
