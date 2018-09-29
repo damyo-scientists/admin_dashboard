@@ -66,7 +66,6 @@ class TrelloController extends Controller
             ->init(self::KEY, self::TOKEN)
             ->boardCards(self::BOARD_ID)
             ->filter(['dueComplete' => false])
-            ->notEmptyFilter(['due'])
             ->customFields($customFieldsInfos)
             ->filter($idFilter, true)
             ->get();

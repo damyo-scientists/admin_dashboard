@@ -7,7 +7,7 @@
       </p>
       <ul>
         <li>시작일: &nbsp;&nbsp;&nbsp;{{ task['Start Date'] | formatDate }}</li>
-        <li>마감일: &nbsp;&nbsp;&nbsp;{{ task.due | formatDate }}</li>
+        <li>마감일: &nbsp;&nbsp;&nbsp;{{ task['End Date'] | formatDate }}</li>
         <li>파트: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{task.Part}}</li>
         <li>상태: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{task.Status}}</li>
       </ul>
