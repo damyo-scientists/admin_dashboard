@@ -10,6 +10,11 @@ export default {
       }
     },
     {
+      name: 'Trello',
+      url: '/trello',
+      icon: 'icon-puzzle'
+    },
+    {
       title: true,
       name: 'UI elements'
     },
@@ -51,11 +56,6 @@ export default {
         {
           name: 'Tables',
           url: '/components/tables',
-          icon: 'icon-puzzle'
-        },
-        {
-          name: 'Trello',
-          url: '/components/trello',
           icon: 'icon-puzzle'
         }
       ]

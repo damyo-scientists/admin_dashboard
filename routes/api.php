@@ -22,4 +22,4 @@ Route::get('/date-time/month', 'DateTimeController@getMonth');
 Route::get('/trello', 'TrelloController@getBoardCard');
 Route::post('/trello/filter', 'TrelloController@getBoardCardFilteredByIds');
 Route::get('/trello/member', 'TrelloController@getMemberId');
-Route::get('/trello/custom-field/{customFieldName}/id', 'TrelloController@getCustomFieldId');
+Route::get('/trello/lists', 'TrelloController@getBoardLists');

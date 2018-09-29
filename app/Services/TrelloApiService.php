@@ -65,6 +65,29 @@ class TrelloApiService
     }
 
     /**
+     * make card
+     *
+     * @param string $boardId
+     * @param array $contents
+     * @return TrelloApiService
+     */
+    public function makeCard(string $boardId, array $contents): TrelloApiService
+    {
+        $this->client->card()->create();
+    }
+
+    /**
+     * @param string $boardId
+     * @return TrelloApiService
+     */
+    public function boardLists(string $boardId): TrelloApiService
+    {
+        $this->contents = $this->client->boards()->lists()->all($boardId);
+
+        return $this;
+    }
+
+    /**
      * @param string $boardId
      * @return TrelloApiService
      */
@@ -146,24 +169,46 @@ class TrelloApiService
         return $this;
     }
 
-    public function customFields(array $customFieldsFilter = []): TrelloApiService
+    public function customFields(array $customFieldsInfos = []): TrelloApiService
     {
         $filteredContents = [];
         $contents = $this->contents;
-        foreach ($customFieldsFilter as $customFieldFilter) {
-            foreach ($contents as $content) {
-                foreach ($content['customFieldItems'] as $customFieldItem) {
-                    foreach ($customFieldFilter['ids'] as $id) {
-                        if ($customFieldItem['idCustomField'] === $id) {
-                            $content[$customFieldFilter['name']] = $customFieldItem['value'][$customFieldFilter['type']];
-                        }
+        foreach ($contents as $content) {
+            foreach ($content['customFieldItems'] as $customFieldItem) {
+                foreach ($customFieldsInfos as $customFieldInfo) {
+                    if ($customFieldItem['idCustomField'] === $customFieldInfo['id']) {
+                        $content[$customFieldInfo['name']] = $this->getCustomFieldValue($customFieldInfo, $customFieldItem);
                     }
                 }
-                $filteredContents[] = $content;
             }
+            $filteredContents[] = $content;
         }
         $this->contents = $filteredContents;
         return $this;
+    }
+
+    /**
+     * @param array $customFieldInfo
+     * @param array $customFiledItem
+     * @return string
+     */
+    private function getCustomFieldValue(array $customFieldInfo, array $customFiledItem): string
+    {
+        switch ($customFieldInfo['type']) {
+            case 'date':
+                return $customFiledItem['value'][$customFieldInfo['type']];
+            case 'list':
+                {
+                    foreach ($customFieldInfo['options'] as $option) {
+                        if ($option['id'] === $customFiledItem['idValue']) {
+                            return $option['value']['text'];
+                        }
+                    }
+                }
+                return '';
+            default:
+                return '';
+        }
     }
 
     public function get(): array

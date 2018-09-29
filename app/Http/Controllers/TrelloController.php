@@ -34,37 +34,39 @@ class TrelloController extends Controller
      */
     public function getBoardCardFilteredByIds(Request $request)
     {
+        // 멤버 이름별 컨텐츠로 분리
         $memberNames = $request->input('memberNames');
         $memberNamesFilter = array(
             'username' => $memberNames
         );
+
+        // 각각의 컨텐츠에 커스텀 필터 정보를 주입
         /** @var array $customFieldIds */
-        $customFieldIds = $request->get('customFieldIds');
-        $customFieldIds = ['5b9100c31ff50a5026ca4e51'];
+        // $customFieldIds = ['Start Date', 'Status', 'Task', 'Part'];
 
         $trelloApiService = new TrelloApiService();
         $memberInfos = $this->getMemberInfos($memberNamesFilter);
+
+        // 멤버 tid 정보 얻어오기
         $memberIds = [];
         foreach ($memberInfos as $memberInfo) {
             $memberIds[$memberInfo['username']] = $memberInfo['id'];
         }
+
+        // id 필터 생성
         $idFilter = array(
             "idMembers" => $memberIds,
         );
+
         $visibility = 'all';
-        $customFieldsFilter = array(
-            array(
-                'ids' => $customFieldIds,
-                'name' => 'start',
-                'type' => 'date'
-            )
-        );
+
+        $customFieldsInfos = $this->getCustomFieldInfos();
+
         $cardsByIds = $trelloApiService
             ->init(self::KEY, self::TOKEN)
             ->boardCards(self::BOARD_ID)
             ->filter(['dueComplete' => false])
-            ->notEmptyFilter(['due'])
-            ->customFields($customFieldsFilter)
+            ->customFields($customFieldsInfos)
             ->filter($idFilter, true)
             ->get();
 
@@ -76,11 +78,19 @@ class TrelloController extends Controller
         return $this->toJson($cardsByIds);
     }
 
+    private function getCustomFieldInfos(): array
+    {
+        $trelloApiService = new TrelloApiService();
+
+        $customFieldInfos = $trelloApiService->init(self::KEY, self::TOKEN)->boardCustomFields(self::BOARD_ID)->get();
+        return $customFieldInfos;
+    }
+
     /**
      * @param string $customFieldName
      * @return string
      */
-    public function getCustomFieldId(string $customFieldName = ''): string
+    public function getCustomFieldIdByName(string $customFieldName = ''): string
     {
         $trelloApiService = new TrelloApiService();
 
@@ -94,13 +104,40 @@ class TrelloController extends Controller
     }
 
     /**
+     * @param array $customFieldNames
+     * @return array
+     */
+    public function getCustomFieldIds(array $customFieldNames): array
+    {
+        $trelloApiService = new TrelloApiService();
+
+        $customFieldInfo = $trelloApiService
+            ->init(self::KEY, self::TOKEN)
+            ->boardCustomFields(self::BOARD_ID)
+            ->filter(array('name' => $customFieldNames))
+            ->get();
+
+        $ids = [];
+        foreach ($customFieldInfo as $customField) {
+            $ids[] = $customField['id'];
+        }
+        return $ids;
+    }
+
+    public function getBoardLists(): array
+    {
+        $boardLists = $this->trelloInit()->boardLists(self::BOARD_ID)->get();
+        return $boardLists;
+    }
+
+    /**
      * @param string $memberName
      * @return string
      */
     public function getMemberId(string $memberName): string
     {
         $trelloApiService = new TrelloApiService();
-        $memberInfo = $trelloApiService->init(self::KEY, self::TOKEN)->boardMember(self::BOARD_ID, $memberName)->getFirst();
+        $memberInfo = $this->trelloInit()->boardMember(self::BOARD_ID, $memberName)->getFirst();
         return $memberInfo['id'];
     }
 
@@ -109,5 +146,11 @@ class TrelloController extends Controller
         $trelloApiService = new TrelloApiService();
         $memberInfo = $trelloApiService->init(self::KEY, self::TOKEN)->boardMembers(self::BOARD_ID, $memberNamesFilter)->get();
         return $memberInfo;
+    }
+
+    private function trelloInit(): TrelloApiService
+    {
+        $trelloApiService = new TrelloApiService();
+        return $trelloApiService->init(self::KEY, self::TOKEN);
     }
 }
