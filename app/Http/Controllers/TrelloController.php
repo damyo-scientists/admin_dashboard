@@ -31,6 +31,7 @@ class TrelloController extends Controller
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function getBoardCardFilteredByIds(Request $request)
     {
@@ -58,6 +59,8 @@ class TrelloController extends Controller
             "idMembers" => $memberIds,
         );
 
+        $statusFilter = array("Status" => ["Todo", "Doing"]);
+
         $visibility = 'all';
 
         $customFieldsInfos = $this->getCustomFieldInfos();
@@ -65,8 +68,8 @@ class TrelloController extends Controller
         $cardsByIds = $trelloApiService
             ->init(self::KEY, self::TOKEN)
             ->boardCards(self::BOARD_ID)
-            ->filter(['dueComplete' => false])
-            ->customFields($customFieldsInfos)
+            ->organizeCustomFields($customFieldsInfos)
+            ->filter($statusFilter)
             ->filter($idFilter, true)
             ->get();
 

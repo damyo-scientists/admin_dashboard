@@ -99,7 +99,7 @@ class TrelloApiService
         return $this;
     }
 
-    public function filter(array $filters = [], bool $divideByFilterValue = false): TrelloApiService
+    public function notFilter(array $filters = [], bool $divideByFilterValue = false): TrelloApiService
     {
         $filteredContents = [];
         $contents = $this->contents;
@@ -108,7 +108,7 @@ class TrelloApiService
                 if (is_array($content[$filterKey])) {
                     foreach ($content[$filterKey] as $contentValue) {
                         if (!is_array($filterValue)) {
-                            if ($contentValue === $filterValue) {
+                            if ($contentValue !== $filterValue) {
                                 if ($divideByFilterValue) {
                                     $filteredContents[$filterValue][] = $content;
                                 } else {
@@ -117,7 +117,7 @@ class TrelloApiService
                             }
                         } else {
                             foreach ($filterValue as $childValue) {
-                                if ($contentValue === $childValue) {
+                                if ($contentValue !== $childValue) {
                                     if ($divideByFilterValue) {
                                         $filteredContents[$childValue][] = $content;
                                     } else {
@@ -129,7 +129,7 @@ class TrelloApiService
                     }
                 } else {
                     if (!is_array($filterValue)) {
-                        if ($content[$filterKey] === $filterValue) {
+                        if ($content[$filterKey] !== $filterValue) {
                             if ($divideByFilterValue) {
                                 $filteredContents[$filterValue][] = $content;
                             } else {
@@ -138,12 +138,74 @@ class TrelloApiService
                         }
                     } else {
                         foreach ($filterValue as $childValue) {
-                            if ($content[$filterKey] === $childValue) {
+                            if ($content[$filterKey] !== $childValue) {
                                 if ($divideByFilterValue) {
                                     $filteredContents[$childValue][] = $content;
                                 } else {
                                     $filteredContents[] = $content;
                                 };
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        $this->contents = $filteredContents;
+        return $this;
+    }
+
+    /**
+     * @param array $filters
+     * @param bool $divideByFilterValue
+     * @return TrelloApiService
+     */
+    public function filter(array $filters = [], bool $divideByFilterValue = false): TrelloApiService
+    {
+        $filteredContents = [];
+        $contents = $this->contents;
+        foreach ($filters as $filterKey => $filterValue) {
+            foreach ($contents as $content) {
+                if (isset($content[$filterKey])) {
+                    if (is_array($content[$filterKey])) {
+                        foreach ($content[$filterKey] as $contentValue) {
+                            if (!is_array($filterValue)) {
+                                if ($contentValue === $filterValue) {
+                                    if ($divideByFilterValue) {
+                                        $filteredContents[$filterValue][] = $content;
+                                    } else {
+                                        $filteredContents[] = $content;
+                                    }
+                                }
+                            } else {
+                                foreach ($filterValue as $childValue) {
+                                    if ($contentValue === $childValue) {
+                                        if ($divideByFilterValue) {
+                                            $filteredContents[$childValue][] = $content;
+                                        } else {
+                                            $filteredContents[] = $content;
+                                        };
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        if (!is_array($filterValue)) {
+                            if ($content[$filterKey] === $filterValue) {
+                                if ($divideByFilterValue) {
+                                    $filteredContents[$filterValue][] = $content;
+                                } else {
+                                    $filteredContents[] = $content;
+                                }
+                            }
+                        } else {
+                            foreach ($filterValue as $childValue) {
+                                if ($content[$filterKey] === $childValue) {
+                                    if ($divideByFilterValue) {
+                                        $filteredContents[$childValue][] = $content;
+                                    } else {
+                                        $filteredContents[] = $content;
+                                    };
+                                }
                             }
                         }
                     }
@@ -169,7 +231,7 @@ class TrelloApiService
         return $this;
     }
 
-    public function customFields(array $customFieldsInfos = []): TrelloApiService
+    public function organizeCustomFields(array $customFieldsInfos = []): TrelloApiService
     {
         $filteredContents = [];
         $contents = $this->contents;

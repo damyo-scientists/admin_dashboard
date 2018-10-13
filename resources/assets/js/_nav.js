@@ -15,6 +15,11 @@ export default {
       icon: 'icon-puzzle'
     },
     {
+      name: 'Routes',
+      url: '/routes',
+      icon:'icon-puzzle'
+    },
+    {
       title: true,
       name: 'UI elements'
     },

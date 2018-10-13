@@ -45,6 +45,7 @@
         memberNames: ids
       }).then(
           (response) => {
+            console.log(response.data);
             self.tasks = response.data
           }
       )
