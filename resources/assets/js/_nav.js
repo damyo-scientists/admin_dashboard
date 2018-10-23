@@ -15,6 +15,11 @@ export default {
       icon: 'icon-puzzle'
     },
     {
+      name: 'CardEventsTable',
+      url: '/card-events-table',
+      icon: 'icon-puzzle'
+    },
+    {
       name: 'Routes',
       url: '/routes',
       icon:'icon-puzzle'

@@ -19,6 +19,7 @@ import Switches from '@/views/components/Switches'
 import Tables from '@/views/components/Tables'
 import Trello from '@/views/trello/Trello'
 import Routes from '@/views/routes/Routes'
+import CardEventsTable from '@/views/datatables/CardEventsTable'
 
 // Views - Icons
 import FontAwesome from '@/views/icons/FontAwesome'
@@ -52,6 +53,11 @@ export default new Router({
           path: 'routes',
           name: 'Routes',
           component: Routes
+        },
+        {
+          path: 'card-events-table',
+          name: 'CardEventsTable',
+          component: CardEventsTable
         },
         {
           path: 'dashboard',

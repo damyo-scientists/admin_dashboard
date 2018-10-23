@@ -24,6 +24,7 @@ import moment from 'moment'
 import {loadProgressBar} from 'axios-progress-bar'
 import 'axios-progress-bar/dist/nprogress.css'
 
+
 loadProgressBar()
 
 Vue.component('App', require('./App.vue'));
