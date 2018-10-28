@@ -23,10 +23,12 @@ import router from './router';
 import moment from 'moment'
 import {loadProgressBar} from 'axios-progress-bar'
 import 'axios-progress-bar/dist/nprogress.css'
+import DatatableFactory from 'vuejs-datatable'
 
 loadProgressBar()
 
 Vue.component('App', require('./App.vue'));
+Vue.use(DatatableFactory);
 Vue.use(BootstrapVue);
 Vue.filter('formatDate', function (value) {
   if (value) {
